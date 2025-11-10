@@ -1,0 +1,54 @@
+# Visual Studio IDE
+.vs/
+.vscode/
+*.sln.iml
+
+# Build results
+bin/
+obj/
+Debug/
+Release/
+x64/
+x86/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# NuGet
+.nuget/
+packages/
+*.nupkg
+*.snupkg
+
+# Local test results
+TestResults/
+
+# IDEs
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Rider
+.idea/
+*.sln.iml
+
+# Environment
+.env
+.env.local
+
+# Build artifacts
+publish/
+PublishProfiles/
+
+# Misc
+*.log
+.coverage
