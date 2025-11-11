@@ -1,0 +1,90 @@
+# Visual Studio / .NET
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+*.DotSettings
+bin/
+obj/
+Debug/
+Release/
+TestResults/
+*.cache
+*.log
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Rider
+.idea/
+*.sln.iml
+
+# NuGet
+*.nupkg
+*.snupkg
+.packages/
+.nuget/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# EF Core
+Migrations/Generated/
+
+# Node / frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+build/
+dist/
+coverage/
+.env
+.env.*
+
+# React/CRA
+.cache/
+public/static/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs
+*.log
+logs/
+
+# IDEs and editors
+*.sublime-workspace
+*.sublime-project
+*.code-workspace
+.vscode/
+.idea/
+
+# Test results
+coverage/
+*.lcov
+
+# SQL Server LocalDB
+*.mdf
+*.ldf
+
+# Misc
+*.bak
+*.backup
+
+# Ignore compiled output from Inventory BE and other projects
+**/bin/
+**/obj/
+
+# Keep this file tracked
+!important.txt
