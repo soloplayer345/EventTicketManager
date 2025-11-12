@@ -2,7 +2,7 @@
 {
     public class TicketType : BaseEntity
     {
-        public int EventId { get; set; }
+        public Guid EventId { get; set; }
         public string Name { get; set; } = null!;
         public int Price { get; set; }
         public string Description { get; set; } = null!;

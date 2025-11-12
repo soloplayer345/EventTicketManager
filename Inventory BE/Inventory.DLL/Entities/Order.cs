@@ -4,7 +4,7 @@ namespace Inventory.DLL.Entities
 {
     public class Order : BaseEntity
     {
-        public int AccountId { get; set; }
+        public Guid AccountId { get; set; }
         public DateTime OrderDate { get; set; }
         public OrderStatus Status { get; set; }
 

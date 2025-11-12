@@ -5,8 +5,8 @@ namespace Inventory.DLL.Entities
 {
     public class SponsorEvent : BaseEntity
     {
-        public int SponsorId { get; set; }
-        public int EventId { get; set; }
+        public Guid SponsorId { get; set; }
+        public Guid EventId { get; set; }
         public int Contribution { get; set; }
         public SponsorLevel SponsorLevel { get; set; }
 

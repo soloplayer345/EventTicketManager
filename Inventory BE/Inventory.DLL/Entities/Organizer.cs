@@ -2,7 +2,7 @@
 {
     public class Organizer : BaseEntity
     {
-        public int AccountId { get; set; }
+        public Guid AccountId { get; set; }
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
         public string Contact { get; set; } = null!;

@@ -2,7 +2,7 @@
 {
     public class Booth : BaseEntity
     {
-        public int SponsorEventId { get; set; }
+        public Guid SponsorEventId { get; set; }
         public string Name { get; set; } = null!;
         public string Location { get; set; } = null!;
 

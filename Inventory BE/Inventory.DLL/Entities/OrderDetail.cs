@@ -2,7 +2,7 @@
 {
     public class OrderDetail : BaseEntity
     {
-        public int OrderId { get; set; }
+        public Guid OrderId { get; set; }
         public int Total { get; set; }
         public int Quantity { get; set; }
 

@@ -2,6 +2,7 @@
 .vs/
 .vscode/
 *.sln.iml
+.idea/
 
 # Build results
 bin/
@@ -10,16 +11,6 @@ Debug/
 Release/
 x64/
 x86/
-
-# User-specific files
-*.rsuser
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-.vscode/
-
-# Build results
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
@@ -35,16 +26,37 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
+# Visual Studio files
+*.sln.docstates
+*.suo
+*.user
+*.userosscache
+*.rsuser
+*.VC.db
+*.VC.VC.opendb
+*.ipch
+
+# Rider
+.idea/
+*.sln.iml
+*.DotSettings.user
+
 # NuGet
 *.nupkg
 *.snupkg
 *.nuget.props
 *.nuget.targets
 
+# Entity Framework
+*.edmx.diagram
+*.edmx
+
 # Database files
 *.mdf
 *.ldf
 *.ndf
+*.dacpac
+*.database
 
 # Node/NPM (for frontend)
 node_modules/
@@ -56,25 +68,51 @@ yarn.lock
 
 # React
 build/
+dist/
 .env
 .env.local
 .env.*.local
+coverage/
 
 # IDE
-.idea/
 *.swp
 *.swo
 *~
 .DS_Store
 Thumbs.db
+.editorconfig.local
 
 # OS
 .DS_Store
 desktop.ini
+.Thumbs.db
 
 # Misc
 *.log
-.env
+logs/
+temp/
+tmp/
+
+# Configuration files (but keep templates)
 appsettings.*.json
 !appsettings.Development.json
 !appsettings.json
+appsettings.Production.json
+
+# Visual Studio Code extensions
+extensions.json
+launch.json
+tasks.json
+*.code-workspace
+
+# MacOS
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+$RECYCLE.BIN/
+ehthumbs.db
+
+# Azure
+.azure/
