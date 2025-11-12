@@ -1,10 +1,11 @@
-﻿using Inventory.DLL.Entities;
+using Inventory.DLL.Entities;
 
 namespace Inventory.DLL.Repositories
 {
-    public class InventoryRepository : BaseRepository<InventoryEntity>
+    public class InventoryRepository : BaseRepository<Event>
     {
-        public InventoryRepository(InventoryDBContext dbContext) : base(dbContext)
+        public InventoryRepository(EventDbContext dbContext)
+            : base(dbContext)
         {
         }
     }
