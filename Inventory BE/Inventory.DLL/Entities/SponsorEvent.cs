@@ -1,6 +1,18 @@
-﻿namespace Inventory.DLL.Entities
+﻿using Inventory.DLL.Emun;
+using Microsoft.Extensions.Logging;
+
+namespace Inventory.DLL.Entities
 {
-    public class SponsorEvent
+    public class SponsorEvent : BaseEntity
     {
+        public int SponsorId { get; set; }
+        public int EventId { get; set; }
+        public int Contribution { get; set; }
+        public SponsorLevel SponsorLevel { get; set; }
+
+        // Navigation
+        public Sponsor Sponsor { get; set; } = null!;
+        public Event Event { get; set; } = null!;
+        public ICollection<Booth>? Booths { get; set; }
     }
 }

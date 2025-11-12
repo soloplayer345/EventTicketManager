@@ -4,6 +4,8 @@ namespace Inventory.DLL.Entities
 {
     public class BaseEntity
     {
+        public Guid Id { get; set; }
+
         [Column("CreatedDate")]
         public DateTime CreatedDate { get; set; }
 

@@ -53,8 +53,8 @@ namespace MySample
 
             builder.Services.AddControllers();
 
-            var conString = builder.Configuration.GetConnectionString("InventoryDBContext") ?? throw new InvalidOperationException("Connection string 'InventoryDBContext' not found.");
-            builder.Services.AddDbContext<InventoryDBContext>(options => options.UseSqlServer(conString));
+            var conString = builder.Configuration.GetConnectionString("LocalConnection") ?? throw new InvalidOperationException("Connection string 'InventoryDBContext' not found.");
+            builder.Services.AddDbContext<EventDbContext>(options => options.UseSqlServer(conString));
 
             builder.Services.AddScoped<InventoryService>();
             builder.Services.AddScoped<InventoryRepository>();
