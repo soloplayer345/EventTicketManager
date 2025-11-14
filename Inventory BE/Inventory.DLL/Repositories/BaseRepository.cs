@@ -6,10 +6,10 @@ namespace Inventory.DLL.Repositories
 {
     public class BaseRepository<T> where T : class
     {
-        internal InventoryDBContext dbContext;
+        internal EventDbContext dbContext;
         internal DbSet<T> dbSet;
 
-        public BaseRepository(InventoryDBContext dbContext)
+        public BaseRepository(EventDbContext dbContext)
         {
             this.dbContext = dbContext;
             dbSet = this.dbContext.Set<T>();
