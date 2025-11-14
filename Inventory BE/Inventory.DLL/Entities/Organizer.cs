@@ -9,5 +9,6 @@
 
         // Navigation
         public Account Account { get; set; } = null!;
+        public ICollection<OrganizorEvent>? OrganizorEvents { get; set; }
     }
 }

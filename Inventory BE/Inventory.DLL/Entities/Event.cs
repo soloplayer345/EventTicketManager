@@ -11,5 +11,6 @@
         // Navigation
         public ICollection<TicketType>? TicketTypes { get; set; }
         public ICollection<SponsorEvent>? SponsorEvents { get; set; }
+        public ICollection<OrganizorEvent>? OrganizorEvents { get; set; }
     }
 }
