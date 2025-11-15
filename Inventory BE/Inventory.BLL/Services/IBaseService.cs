@@ -1,6 +1,8 @@
 namespace Inventory.BLL.Services
 {
-    public interface IBaseService<TDto> where TDto : class
+    public interface IBaseService<TEntity, TDto> 
+        where TEntity : class
+        where TDto : class
     {
         Task<TDto> Create(TDto dto);
         Task<List<TDto>> Read(int pageSize, int pageNumber);

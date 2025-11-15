@@ -2,6 +2,7 @@ namespace Inventory.BLL.DTOs
 {
     public class TicketTypeDTO
     {
+        public int Id { get; set; }
         public int TicketTypeId { get; set; }
         public int EventId { get; set; }
         public string Name { get; set; } = string.Empty;

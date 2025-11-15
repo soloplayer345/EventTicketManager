@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Inventory.BLL.Services
 {
-    public class BaseService<TEntity, TDto> : IBaseService<TDto>
+    public class BaseService<TEntity, TDto> : IBaseService<TEntity, TDto>
         where TEntity : class
         where TDto : class
     {

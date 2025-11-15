@@ -44,24 +44,15 @@ namespace Inventory.BLL.Services
                 };
             }
 
-            // Validate role
-            if (!Enum.TryParse<AccountRole>(registerDto.Role, true, out var accountRole))
-            {
-                return new AuthResponseDTO
-                {
-                    Message = "Invalid role. Valid roles are: Admin, Organizer, Sponsor, Attendee."
-                };
-            }
-
             // Hash password
             var hashedPassword = HashPassword(registerDto.Password);
 
-            // Create new account
+            // Create new account with Attendee role
             var newAccount = new Account
             {
                 Email = registerDto.Email,
                 Password = hashedPassword,
-                accountRole = accountRole
+                accountRole = AccountRole.Attendee
             };
 
             _dbContext.Accounts.Add(newAccount);

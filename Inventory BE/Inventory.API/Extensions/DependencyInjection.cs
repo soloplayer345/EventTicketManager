@@ -49,9 +49,24 @@ namespace Inventory.API.Extensions
             var mapper = config.CreateMapper();
             services.AddSingleton(mapper);
 
-            // Services
+            // Base Service Registration
+            services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
+
+            // Authentication Service
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped(typeof(IBaseService<>), typeof(BaseService<,>));
+
+            // Entity Services
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IOrganizerService, OrganizerService>();
+            services.AddScoped<ISponsorService, SponsorService>();
+            services.AddScoped<ITicketTypeService, TicketTypeService>();
+            services.AddScoped<ITicketService, TicketService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IOrderDetailService, OrderDetailService>();
+            services.AddScoped<IBoothService, BoothService>();
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<ISponsorEventService, SponsorEventService>();
 
             return services;
         }
