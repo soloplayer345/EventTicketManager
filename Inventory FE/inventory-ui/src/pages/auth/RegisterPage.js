@@ -7,6 +7,7 @@ import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select";
 import { UserPlus, Mail, Lock, User, Building2, Phone, FileText } from "lucide-react";
+import { register } from "../../services/accountAPI";
 
 const roles = [
     { value: 4, label: "Customer (Attendee)" },
@@ -19,7 +20,7 @@ const RegisterPage = () => {
         email: "",
         password: "",
         confirmPassword: "",
-        accountRole: 4,
+        accountRole: 4, // Always Attendee
         name: "",
         description: "",
         information: "",
@@ -55,19 +56,51 @@ const RegisterPage = () => {
             return;
         }
 
-        if (formData.password.length < 6) {
-            setMessage("Password must be at least 6 characters!");
+        // Validate password requirements
+        if (formData.password.length < 12) {
+            setMessage("Password must be at least 12 characters long!");
             setIsSubmitting(false);
             return;
         }
 
-        setTimeout(() => {
+        if (!/[A-Z]/.test(formData.password)) {
+            setMessage("Password must contain at least one uppercase letter!");
             setIsSubmitting(false);
-            setMessage("Registration successful! Redirecting to login...");
-            setTimeout(() => {
-                navigate("/login");
-            }, 1500);
-        }, 800);
+            return;
+        }
+
+        if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(formData.password)) {
+            setMessage("Password must contain at least one special character!");
+            setIsSubmitting(false);
+            return;
+        }
+
+        try {
+            // Call the register API
+            const response = await register(formData.email, formData.password);
+            
+            if (response.token) {
+                // Save token to localStorage
+                localStorage.setItem("token", response.token);
+                localStorage.setItem("accountId", response.accountId);
+                localStorage.setItem("email", response.email);
+                localStorage.setItem("role", response.role);
+                
+                setMessage("Registration successful! Redirecting to login...");
+                setTimeout(() => {
+                    navigate("/login");
+                }, 1500);
+            } else if (response.message) {
+                setMessage(response.message || "Registration failed!");
+            } else {
+                setMessage("Registration failed! Please try again.");
+            }
+        } catch (error) {
+            console.error("Registration error:", error);
+            setMessage("An error occurred during registration. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const isOrganizer = formData.accountRole === 2;
@@ -109,18 +142,16 @@ const RegisterPage = () => {
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="accountRole">Account Role</Label>
-                                    <Select value={formData.accountRole.toString()} onValueChange={handleRoleChange}>
-                                        <SelectTrigger id="accountRole" className="w-full">
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {roles.map((role) => (
-                                                <SelectItem key={role.value} value={role.value.toString()}>
-                                                    {role.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
+                                    <div className="relative">
+                                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none z-10" />
+                                        <Input
+                                            id="accountRole"
+                                            type="text"
+                                            value="Attendee"
+                                            disabled
+                                            className="pl-10"
+                                        />
+                                    </div>
                                 </div>
                             </div>
 
@@ -135,12 +166,15 @@ const RegisterPage = () => {
                                             name="password"
                                             value={formData.password}
                                             onChange={handleChange}
-                                            placeholder="At least 6 characters"
+                                            placeholder="Min 12 chars, 1 uppercase, 1 special char"
                                             className="pl-10"
                                             required
-                                            minLength={6}
+                                            minLength={12}
                                         />
                                     </div>
+                                    <p className="text-xs text-muted-foreground mt-1">
+                                        At least 12 characters, 1 uppercase letter, and 1 special character
+                                    </p>
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="confirmPassword">Confirm Password</Label>
@@ -155,6 +189,7 @@ const RegisterPage = () => {
                                             placeholder="Re-enter your password"
                                             className="pl-10"
                                             required
+                                            minLength={12}
                                         />
                                     </div>
                                 </div>

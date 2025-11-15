@@ -5,13 +5,13 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { LogIn, Mail, Lock, User } from "lucide-react";
+import { login } from "../../services/accountAPI";
 
 const roles = ["Customer", "Organizer", "Sponsor", "Admin"];
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [role, setRole] = useState(roles[0]);
     const [message, setMessage] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
@@ -21,25 +21,54 @@ const LoginPage = () => {
         setIsSubmitting(true);
         setMessage("");
 
-        setTimeout(() => {
+        if (!email || !password) {
+            setMessage("Please enter both email and password!");
             setIsSubmitting(false);
-            setMessage("Welcome back! Redirecting to your workspace…");
+            return;
+        }
 
-            switch (role) {
-                case "Organizer":
-                    navigate("/organizer");
-                    break;
-                case "Sponsor":
-                    navigate("/sponsor");
-                    break;
-                case "Admin":
-                    navigate("/admin");
-                    break;
-                default:
-                    navigate("/customer");
-                    break;
+        try {
+            // Call the login API
+            const response = await login(email, password);
+            
+            if (response.token) {
+                // Save token and user info to localStorage
+                localStorage.setItem("token", response.token);
+                localStorage.setItem("accountId", response.accountId);
+                localStorage.setItem("email", response.email);
+                localStorage.setItem("role", response.role);
+                
+                setMessage("Welcome back! Redirecting to your workspace…");
+                
+                // Redirect based on role
+                setTimeout(() => {
+                    const userRole = response.role;
+                    switch (userRole) {
+                        case "Organizer":
+                            navigate("/organizer");
+                            break;
+                        case "Sponsor":
+                            navigate("/sponsor");
+                            break;
+                        case "Admin":
+                            navigate("/admin");
+                            break;
+                        default: // Attendee or Customer
+                            navigate("/customer");
+                            break;
+                    }
+                }, 800);
+            } else if (response.message) {
+                setMessage(response.message || "Login failed!");
+            } else {
+                setMessage("Login failed! Please try again.");
             }
-        }, 800);
+        } catch (error) {
+            console.error("Login error:", error);
+            setMessage("An error occurred during login. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -87,25 +116,6 @@ const LoginPage = () => {
                                         className="pl-10"
                                         required
                                     />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="role">Role</Label>
-                                <div className="relative">
-                                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <select
-                                        id="role"
-                                        value={role}
-                                        onChange={(e) => setRole(e.target.value)}
-                                        className="flex h-10 w-full rounded-md border border-input bg-background px-10 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                                        required
-                                    >
-                                        {roles.map((roleOption) => (
-                                            <option key={roleOption} value={roleOption}>
-                                                {roleOption}
-                                            </option>
-                                        ))}
-                                    </select>
                                 </div>
                             </div>
                             <Button type="submit" className="w-full" disabled={isSubmitting}>

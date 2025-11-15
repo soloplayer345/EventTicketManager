@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Button } from "../ui/button";
-import { Calendar, LayoutDashboard, Users, Ticket, Shield, Menu } from "lucide-react";
+import { Calendar, LayoutDashboard, Users, Ticket, Shield, Menu, LogOut } from "lucide-react";
 
 const TopNav = () => {
+    const [userEmail, setUserEmail] = useState(null);
+
+    useEffect(() => {
+        // Get email from localStorage if user is logged in
+        const email = localStorage.getItem("email");
+        setUserEmail(email);
+    }, []);
+
+    const handleLogout = () => {
+        // Clear localStorage
+        localStorage.removeItem("token");
+        localStorage.removeItem("accountId");
+        localStorage.removeItem("email");
+        localStorage.removeItem("role");
+        setUserEmail(null);
+    };
+
     const navItems = [
         { to: "/events", label: "Events", icon: Calendar },
         { to: "/dashboard", label: "Experience", icon: LayoutDashboard },
-        { to: "/organizer", label: "Organizer", icon: Users },
-        { to: "/sponsor", label: "Sponsor", icon: Users },
-        { to: "/customer", label: "Attendee", icon: Ticket },
-        { to: "/admin", label: "Admin", icon: Shield },
     ];
 
     return (
@@ -44,12 +57,33 @@ const TopNav = () => {
                     </nav>
                     
                     <div className="flex items-center space-x-2">
-                        <Button asChild variant="ghost" size="sm">
-                            <NavLink to="/login">Sign in</NavLink>
-                        </Button>
-                        <Button asChild size="sm">
-                            <a href="#get-started">Request demo</a>
-                        </Button>
+                        {userEmail ? (
+                            <>
+                                <div className="flex items-center px-3 py-2 rounded-md bg-accent/10">
+                                    <span className="text-sm font-medium">{userEmail}</span>
+                                </div>
+                                <Button 
+                                    variant="ghost" 
+                                    size="sm"
+                                    onClick={handleLogout}
+                                    asChild
+                                >
+                                    <Link to="/login">
+                                        <LogOut className="mr-2 h-4 w-4" />
+                                        Logout
+                                    </Link>
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <Button asChild variant="ghost" size="sm">
+                                    <NavLink to="/login">Sign in</NavLink>
+                                </Button>
+                                <Button asChild size="sm">
+                                    <NavLink to="/register">Sign up</NavLink>
+                                </Button>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

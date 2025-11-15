@@ -89,3 +89,32 @@ export async function createOrganizer(organizer) {
     return res.json();
 }
 
+// Authentication operations
+export async function register(email, password) {
+    const res = await fetch("https://localhost:7269/api/Auth/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    });
+    return res.json();
+}
+
+export async function login(email, password) {
+    const res = await fetch("https://localhost:7269/api/Auth/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    });
+    return res.json();
+}
+
