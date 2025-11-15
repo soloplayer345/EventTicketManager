@@ -1,10 +1,9 @@
-# SimpleERP
-Simple ERP System - Tech Assessment
+# EventTicketManager
+Event Ticket Management System
 
 **ARCHITECTURE DIAGRAM**
 
-
-![Logo](https://raw.githubusercontent.com/Herowin8x/SimpleERP/refs/heads/main/Untitled.png)
+![Architecture](https://raw.githubusercontent.com/soloplayer345/EventTicketManager/main/docs/architecture.png)
 
 **COMPONENT DESCRIPTIONS**
 
@@ -27,17 +26,19 @@ o	After 5 consecutive failures → IsLockedOut = true for X minutes.
 
 **INVENTORY MANAGEMENT FLOW**
 
+Hệ thống quản lý vé sự kiện cho phép quản lý người tổ chức, sự kiện, vé, đơn hàng và thanh toán.
+
 Role	Permissions
-Viewer	GET (view list/details only)
-Editor	GET, POST, PUT, DELETE (full CRUD)
+Viewer	GET (xem danh sách/chi tiết)
+Editor	GET, POST, PUT, DELETE (toàn quyền)
 
 **EXAMPLE FLOW**
-1.	Viewer calls /api/inventory → returns read-only list.
-2.	Editor calls:
-o	POST /api/inventory → add new item.
-o	PUT /api/inventory/{id} → update item.
-o	DELETE /api/inventory/{id} → delete item.
-3.	Middleware checks Role claim in JWT to enforce permissions.
+1.	Viewer gọi /api/events → trả về danh sách sự kiện chỉ đọc.
+2.	Editor gọi:
+o	POST /api/events → thêm sự kiện mới.
+o	PUT /api/events/{id} → cập nhật sự kiện.
+o	DELETE /api/events/{id} → xóa sự kiện.
+3.	Middleware kiểm tra Role claim trong JWT để áp dụng quyền hạn.
 
 **DATA MODEL OVERVIEW**
 User Table
@@ -48,27 +49,39 @@ PasswordHash	string	Hashed (e.g., PBKDF2 or bcrypt)
 Role	enum(Viewer, Editor)	Used for RBAC
 FailedAttempts	int	Track login failures
 IsLockedOut	bool	Prevent login when true
-Inventory Table
+
+Event Table
 Field	Type
 Id	GUID
 Name	string
 Description	string
-Color	string
-Type	string
-Suppliers	string
-Manufacturers	string
+EventDate	DateTime
+OrganizerId	GUID (FK)
+
+Ticket Table
+Field	Type
+Id	GUID
+EventId	GUID (FK)
+TicketTypeId	GUID (FK)
+Quantity	int
+Price	decimal
 
 **DEPLOYMENTS**
-1.	Run DB Scripts(file InventoryDB.sql) to create DB and import data automatically(required SQL 2022 version, firstly need create a new database named “InventoryDB”
-2.	Run BE application from Inventory BE folder(required Visual Studio 2022 version), maybe need to modify ConnectionStrings in appsettings.json if difference SQL instance name
-3.	Run FE application from Inventory FE folder by using VS code or go to the terminal -> run command prompt as “npm install” then run "npm start", during use if there is any problem please refresh page or clear site data from application tab from Browser due to some of the problems described in section Technical Debt
-Use Peter/dUY@NH123456 as Editor role
-Use Mark/dUY@NH112233 as Viewer role
+1. Chạy DB Scripts (file EventTicketManager_Database.sql) để tạo cơ sở dữ liệu (yêu cầu SQL Server 2022 trở lên, trước tiên cần tạo cơ sở dữ liệu mới có tên "EventTicketManager")
+2. Chạy ứng dụng Backend từ thư mục "Inventory BE" (yêu cầu Visual Studio 2022), có thể cần sửa ConnectionStrings trong appsettings.json nếu tên SQL instance khác
+3. Chạy ứng dụng Frontend từ thư mục "Inventory FE" bằng VS Code hoặc terminal:
+   - Chạy lệnh: `npm install`
+   - Sau đó chạy: `npm start`
+   - Nếu gặp vấn đề, vui lòng làm mới trang hoặc xóa dữ liệu trang từ tab Application trong Browser
+
+**TÀI KHOẢN TEST**
+- Editor: Peter / dUY@NH123456
+- Viewer: Mark / dUY@NH112233
 
 **TECHNICAL DEBT**
-1.	Some business constraints cannot be completed due to time constraints
-2.	Not applied yet Async Programming to achieve Non-Blocking operations
-3.	Review the entire source code thoroughly because of lack of time
-4.	Some performance issues may occur in this version(Paging mechanism not implemented yet, SQL Optimization,...)
+1. Một số ràng buộc kinh doanh không thể hoàn thành do hạn chế về thời gian
+2. Chưa áp dụng Lập trình Bất đồng bộ để đạt được các hoạt động Không chặn
+3. Cần xem xét lại toàn bộ mã nguồn do thiếu thời gian
+4. Có thể xảy ra một số vấn đề về hiệu suất trong phiên bản này (cơ chế Phân trang chưa được triển khai, Tối ưu hóa SQL,...)
 
 

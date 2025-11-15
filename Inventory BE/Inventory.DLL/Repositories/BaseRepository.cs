@@ -4,19 +4,19 @@ using System.Runtime.InteropServices;
 
 namespace Inventory.DLL.Repositories
 {
-    public class BaseRepository<T> where T : class
+    public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        internal InventoryDBContext dbContext;
+        internal EventDbContext dbContext;
         internal DbSet<T> dbSet;
 
-        public BaseRepository(InventoryDBContext dbContext)
+        public BaseRepository(EventDbContext dbContext)
         {
             this.dbContext = dbContext;
             dbSet = this.dbContext.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> Read([Optional] Expression<Func<T, bool>> filter,
-                                               [Optional] Func<IQueryable<T>, IOrderedQueryable<T>> orderBy,
+        public async Task<IEnumerable<T>> Read(Expression<Func<T, bool>>? filter = null,
+                                               Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
                                                int pageNumber = 1,
                                                int pageSize = 100)
         {
