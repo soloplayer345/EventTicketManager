@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import AppLayout from "./components/layout/AppLayout";
 import ScrollToTop from "./components/ScrollToTop";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import OrganizerHub from "./pages/OrganizerHub";
@@ -33,7 +34,11 @@ function App() {
             <Routes>
                 <Route element={<AppLayout />}>
                     <Route path="/" element={<Landing />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/dashboard" element={
+                        <ProtectedRoute>
+                            <Dashboard />
+                        </ProtectedRoute>
+                    } />
                     <Route path="/events" element={<EventsList />} />
                     <Route path="/events/:eventId" element={<EventDetail />} />
                     <Route path="/events/:eventId/checkout" element={<Checkout />} />
