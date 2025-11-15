@@ -1,7 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from "@testing-library/react";
+import App from "./App";
 
-test('renders learn react link', () => {
-    render(<App></App>);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+jest.mock("react-router-dom");
+
+test("renders landing hero headline", () => {
+    render(<App />);
+    const headline = screen.getByText(/FU-Eventify/i);
+    expect(headline).toBeInTheDocument();
 });
